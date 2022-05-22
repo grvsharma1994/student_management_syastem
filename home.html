@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: rgba(197, 121, 22, 0.76);
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #nav {
+            display: flex;
+            background-color: rgb(16, 37, 231);
+            color: white;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            padding-left: 20px;
+            position: sticky;
+            top: 0px;
+        }
+
+        #nav>p {
+            margin-right: 10px;
+            border-right: 4px rgba(255, 255, 255, 0.884) solid;
+            padding-right: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #nav>#admin {
+            position: absolute;
+            right: 0px;
+            border: none;
+            padding-right: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        #form {
+            width: 25%;
+            margin: auto;
+            display: grid;
+            padding: 3% 5%;
+            margin-top: 3%;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: rgba(30, 145, 233, 0.3) 0px 1px 2px 0px, rgba(68, 158, 228, 0.15) 0px 1px 3px 1px;
+        }
+
+        #stud {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 7%;
+            padding-bottom: 5%;
+            font-weight: bold;
+            color: rgb(60, 93, 236);
+            border-bottom: 2px solid;
+        }
+
+        input,
+        select,
+        option,
+        button {
+            margin-top: 5%;
+            padding: 3%;
+            border-radius: 10px;
+            border: 2px solid rgba(69, 152, 235, 0.7);
+            outline: none;
+            font-weight: bold;
+        }
+
+        #batch,
+        #add {
+            cursor: pointer;
+        }
+
+        #add {
+            background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #1fb37f 100%);
+            border: none;
+            border-radius: 6px;
+            box-shadow: rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, rgba(58, 65, 111, .5) 0 -3px 0 inset;
+            color: white;
+            transition: box-shadow .15s, transform .15s;
+            will-change: box-shadow, transform;
+            font-size: 16px;
+            padding: 4%;
+            margin-top: 13%;
+        }
+
+        #add:hover {
+            box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+        }
+        #nav>#w19{
+            border:none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nav">
+        <p id="w16">Web-16 - <span></span></p>
+        <p id="w17">Web-17 - <span></span></p>
+        <p id="w18">Web-18 - <span></span></p>
+        <p id="w19">Web-19 - <span></span></p>
+        <p id="admin"><a href="dashboard.html">Dashboard</a></p>
+    </div>
+    <form id="form">
+        <div id="stud">Student Details Submission</div>
+        <input type="text" id="name" placeholder="Student Name" required minlength="5">
+        <input type="text" id="course" placeholder="Course" required>
+        <input type="number" id="unit" placeholder="Unit" required>
+        <input type="url" id="image" placeholder="Image Url" required>
+        <select name="" id="batch">
+            <option value="">Select Batch</option>
+            <option value="Web-16">Web-16</option>
+            <option value="Web-17">Web-17</option>
+            <option value="Web-18">Web-18</option>
+            <option value="Web-19">Web-19</option>
+        </select>
+        <input type="submit" id="add" value="SUBMIT">
+    </form>
+</body>
+
+</html>
+<script>
+    function Student(name, course, unit, image, batch) {
+        this.name = name;
+        this.course = course;
+        this.unit = unit;
+        this.image = image;
+        this.batch = batch;
+    }
+
+    let form = document.querySelector('#form');
+
+    let studentArr = JSON.parse(localStorage.getItem('studentData')) || [];
+
+    form.addEventListener('submit', function () {
+        event.preventDefault();
+
+        let name = form.name.value;
+        let course = form.course.value;
+        let unit = form.unit.value;
+        let image = form.image.value;
+        let batch = form.batch.value;
+
+        let studentObj = new Student(name, course, unit, image, batch);
+        studentArr.push(studentObj);
+
+        localStorage.setItem('studentData', JSON.stringify(studentArr));
+
+        displayData(studentArr);
+    })
+
+    // function for displaying no of students batch wise;
+
+    displayData(studentArr);
+
+    function displayData(studentArr) {
+
+        let batch1 = 0;
+        let batch2 = 0;
+        let batch3 = 0;
+        let batch4 = 0;
+
+
+        studentArr.forEach(function (elem, index) {
+
+            let batch = elem.batch;
+
+            if (batch === "Web-16") {
+                batch1++;
+            }
+            else if (batch === "Web-17") {
+                batch2++;
+            }
+            else if (batch === "Web-18") {
+                batch3++;
+            }
+            else if (batch === "Web-19") {
+                batch4++;
+
+            }
+        })
+        document.querySelector("#w16>span").innerText = batch1;
+        document.querySelector("#w17>span").innerText = batch2;
+        document.querySelector("#w18>span").innerText = batch3;
+        document.querySelector("#w19>span").innerText = batch4;
+
+    }
+
+</script>
